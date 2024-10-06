@@ -5,7 +5,6 @@ import { revalidateTag } from "next/cache";
 
 export const getAllRecipes = async () => {
   let fetchOptions = {};
-
   fetchOptions = {
     cache: "no-store",
   };

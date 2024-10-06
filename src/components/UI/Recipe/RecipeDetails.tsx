@@ -89,7 +89,7 @@ export default function RecipeDetails({ recipe, user }: IProps) {
               easy-to-follow recipes. Passionate about blending flavors and
               making cooking enjoyable for everyone.
             </h2>
-            <Link href={`profile/${recipe?.author?._id}`}>
+            <Link href={`/profile/${recipe?.author?._id}`}>
               <button className="px-4 mt-3 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 transition">
                 Learn More..
               </button>

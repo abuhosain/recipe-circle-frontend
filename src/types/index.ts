@@ -65,6 +65,7 @@ export interface Author {
   needsPasswordChange: boolean
   createdAt: string
   updatedAt: string
+  bio? : string;
   subscriptionEndDate: string
   subscriptionStartDate: string
 }

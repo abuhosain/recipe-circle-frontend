@@ -38,7 +38,7 @@ export default function RecipeCard({ recipe }: {recipe : IRecipe}) {
             </b>
           </Link>
         </h2>
-        <Link href={`${recipe?._id}`} className="w-full">
+        <Link href={`/recipes/${recipe?._id}`} className="w-full">
           <Button
             className="mt-4"
             color="primary"
