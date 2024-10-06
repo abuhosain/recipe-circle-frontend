@@ -7,14 +7,14 @@ import { useVote } from "@/src/hooks/recipe.hook";
 import VoteComponent from "./RecipeVote";
 import RecipeRating from "./RecipeRating";
 import CommentSection from "./RecipeComment";
+import { Link } from "@nextui-org/react";
 
 interface IProps {
   recipe: IRecipe;
-  user : IUser
+  user: IUser;
 }
 
 export default function RecipeDetails({ recipe, user }: IProps) {
-  console.log(user)
   const [totalVotes, setTotalVotes] = useState(recipe?.voteScore || 0);
 
   // Use the custom mutation hook for voting
@@ -36,75 +36,73 @@ export default function RecipeDetails({ recipe, user }: IProps) {
   };
 
   return (
-    <div className="grid md:grid-cols-2 gap-3">
-      {/* Recipe details page */}
-      <div className="">
+    <div className="grid md:grid-cols-2 gap-6 p-6 bg-white rounded-lg shadow-md mb-12">
+      {/* Recipe details section */}
+      <div>
         <div className="pr-12">
           <ImageGallery images={recipe?.images} />
         </div>
         <h3 className="text-3xl mt-3 font-semibold">{recipe?.title}</h3>
-       
 
         {/* Description */}
-        <p className="text-md mt-3 text-slate-500">{recipe?.description}</p>
+        <p className="text-md mt-3 text-slate-600">{recipe?.description}</p>
 
         {/* Tags */}
         <div className="flex gap-3 mt-3 mb-2">
-          <span className="text-xl">Tags:</span>
-          <p className="flex gap-2 items-center">
-            {recipe.tags ? (
-              recipe.tags?.map((item, index) => (
-                <span key={index}>`{item}`</span>
+          <span className="text-xl font-bold">Tags:</span>
+          <div className="flex gap-2 items-center">
+            {recipe.tags.length > 0 ? (
+              recipe.tags.map((item, index) => (
+                <span key={index} className="bg-blue-200 text-blue-800 text-sm py-1 px-2 rounded-md">
+                  {item}
+                </span>
               ))
             ) : (
-              <p>There are no tags available now.</p>
+              <p>No tags available.</p>
             )}
-          </p>
+          </div>
+        </div>
+
+        {/* Instructions */}
+        <div className="mt-4">
+          <h4 className="text-xl font-semibold">Instructions:</h4>
+          <p className="text-md text-slate-500">{recipe.instructions}</p>
         </div>
 
         {/* Vote */}
+        <div className="mt-3">
         <VoteComponent
           initialVote={0}
           onVote={handleVote}
           initialTotalVotes={totalVotes}
         />
+        </div>
       </div>
 
       {/* Author section */}
-
-      <div >
-        {/* <div className="border rounded-md w-full bg-slate-500 relative h-[20rem] mt-12">
-          <Image
-            src={
-              "https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_960_720.png"
-            }
-            className="flex justify-center mx-auto rounded-full absolute -top-24 right-52"
-            height={200}
-            width={200}
-            alt="Author Name"
-          />
-          <div className="mt-32 text-center">
-            <h3 className="font-bld text-3xl">
-              HI I'm, {recipe?.author?.name}
-            </h3>
+      <div>
+        <div className="border rounded-md w-full bg-slate-100 relative   mt-12 p-4">
+          <div className="text-center">
+            <h3 className="font-bold text-2xl">Hi, I'm {recipe?.author?.name}</h3>
             <h2 className="text-md">
               A culinary enthusiast with a love for creating delicious and
               easy-to-follow recipes. Passionate about blending flavors and
               making cooking enjoyable for everyone.
             </h2>
-
             <Link href={`profile/${recipe?.author?._id}`}>
-              <Button className="px-2 mt-3">Learn More..</Button>
+              <button className="px-4 mt-3 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 transition">
+                Learn More..
+              </button>
             </Link>
           </div>
-        </div> */}
+        </div>
 
         <div className="mt-4">
-        <RecipeRating  key={recipe._id} recipe={recipe}  />
+          <RecipeRating key={recipe._id} recipe={recipe} />
         </div>
 
         <div>
-          <CommentSection recipe={recipe} currentUser={user} />
+          <CommentSection key={recipe?._id} recipe={recipe} currentUser={user} />
         </div>
       </div>
     </div>

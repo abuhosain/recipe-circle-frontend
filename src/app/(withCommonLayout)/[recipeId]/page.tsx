@@ -16,7 +16,7 @@ export default async function RecipeDetailsPage({ params: { recipeId } }: IProps
   console.log(recipe);
   return (
     <Container>
-      <div className="mx-auto my-3 ">
+      <div className="mx-auto  ">
         <RecipeDetails key={recipe._id} recipe={recipe} user={user} />
       </div>
     </Container>

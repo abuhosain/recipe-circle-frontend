@@ -36,7 +36,7 @@ const CommentSection: React.FC<CommentSectionProps> = ({ recipe, currentUser }) 
       onSuccess: (response) => {
         setComments((prev) => [
           ...prev, 
-          { _id: response.commentId, user: { email: currentUser.email, name: currentUser.name }, content: newComment }
+          { _id: response?.commentId, user: { email: currentUser.email, name: currentUser?.name }, content: newComment }
         ]);
         setNewComment('');
       },
@@ -126,7 +126,7 @@ const CommentSection: React.FC<CommentSectionProps> = ({ recipe, currentUser }) 
                   ••• {/* Three dots */}
                 </button>
                 {visibleOptions === comment._id && (
-                  <div className="absolute bg-white shadow-lg border rounded-md mt-1 z-10 p-4 w-64">
+                  <div className="absolute bg-white shadow-lg border rounded-md mt-1 z-10 p-4 -top-32 w-72">
                     <textarea
                       value={updatedContentMap[comment._id] || ''}
                       onChange={(e) => setUpdatedContentMap((prev) => ({ ...prev, [comment._id]: e.target.value })) }
