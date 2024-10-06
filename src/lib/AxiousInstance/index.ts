@@ -8,6 +8,7 @@ import { cookies } from "next/headers";
 
 const axiousInstance = axios.create({
     baseURL : envConfig.baseApi,
+     
 });
 
 axiousInstance.interceptors.request.use(
@@ -15,7 +16,7 @@ axiousInstance.interceptors.request.use(
         const cockieStore = cookies();
         const accessToken = cockieStore.get("accessToken")?.value;
         if(accessToken){
-            confg.headers.Authorization = accessToken;
+            confg.headers.authorization = accessToken;
         }
         return confg;
     },
@@ -36,6 +37,7 @@ axiousInstance.interceptors.response.use(
         config.sent = true;
   
         const res = await getNewAccessToken();
+        console.log("res", res)
         const accessToken = res.data.accessToken;
         cookies().set("accessToken", accessToken);
         config.headers["Authorization"] = accessToken;
