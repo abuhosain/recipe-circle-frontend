@@ -62,3 +62,39 @@ export const addRating = async (
     throw new Error("Failed to submit Rating"); // This can be further enhanced to include error details
   }
 };
+
+export const addComment = async(recipeId : string, comment: string):Promise<any> => {
+  try{
+    const {data} = await axiousInstance.post(`/social/comment/recipes/${recipeId}`,{
+      content : comment
+    })
+  } catch (error) {
+    console.error("Comment submission error:", error); // Improved logging for easier debugging
+    throw new Error("Failed to submit Comment"); // This can be further enhanced to include error details
+  }
+}
+
+// Delete Comment API Call
+export const deleteComment = async (recipeId: string, commentId: string): Promise<any> => {
+  try {
+    const { data } = await axiousInstance.delete(`/social/recipes/${recipeId}/comment/${commentId}`);
+    return data; // Return the data if needed
+  } catch (error) {
+    console.error("Comment deletion error:", error);
+    throw new Error("Failed to delete Comment");
+  }
+};
+
+
+// Update Comment API Call
+export const updateComment = async (recipeId: string, commentId: string, newComment: string): Promise<any> => {
+  try {
+    const { data } = await axiousInstance.put(`/social/recipes/${recipeId}/comment/${commentId}`, {
+      content: newComment
+    });
+    return data; // Return the data if needed
+  } catch (error) {
+    console.error("Comment update error:", error);
+    throw new Error("Failed to update Comment");
+  }
+};

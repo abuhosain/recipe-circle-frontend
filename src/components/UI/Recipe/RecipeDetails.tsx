@@ -1,21 +1,20 @@
 "use client";
 import { useState } from "react";
-import { IRecipe } from "@/src/types";
-import { Button } from "@nextui-org/react";
-import Image from "next/image";
-import Link from "next/link";
+import { IRecipe, IUser } from "@/src/types";
 import ImageGallery from "./ImageGallery";
-import { Rating } from "@smastrom/react-rating";
 import "@smastrom/react-rating/style.css";
 import { useVote } from "@/src/hooks/recipe.hook";
 import VoteComponent from "./RecipeVote";
 import RecipeRating from "./RecipeRating";
+import CommentSection from "./RecipeComment";
 
 interface IProps {
   recipe: IRecipe;
+  user : IUser
 }
 
-export default function RecipeDetails({ recipe }: IProps) {
+export default function RecipeDetails({ recipe, user }: IProps) {
+  console.log(user)
   const [totalVotes, setTotalVotes] = useState(recipe?.voteScore || 0);
 
   // Use the custom mutation hook for voting
@@ -74,7 +73,7 @@ export default function RecipeDetails({ recipe }: IProps) {
       {/* Author section */}
 
       <div >
-        <div className="border rounded-md w-full bg-slate-500 relative h-[20rem] mt-12">
+        {/* <div className="border rounded-md w-full bg-slate-500 relative h-[20rem] mt-12">
           <Image
             src={
               "https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_960_720.png"
@@ -98,10 +97,14 @@ export default function RecipeDetails({ recipe }: IProps) {
               <Button className="px-2 mt-3">Learn More..</Button>
             </Link>
           </div>
-        </div>
+        </div> */}
 
         <div className="mt-4">
         <RecipeRating  key={recipe._id} recipe={recipe}  />
+        </div>
+
+        <div>
+          <CommentSection recipe={recipe} currentUser={user} />
         </div>
       </div>
     </div>

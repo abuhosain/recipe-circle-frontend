@@ -2,7 +2,8 @@
 import RecipeCard from "@/src/components/UI/Recipe/RecipeCard";
 import { getAllRecipes } from "@/src/services/RecipeService";
 export default async function Home() {
-  const { data: { recipes } } = await getAllRecipes(); //  
+  const { data: { recipes } } = await getAllRecipes();
+   //  
   return (
     <section>
     
