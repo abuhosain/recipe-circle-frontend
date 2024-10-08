@@ -1,51 +1,46 @@
-"use server"
-
+ 
 import envConfig from "@/src/config/env.confg";
 import { getNewAccessToken } from "@/src/services/AuthService";
 import axios from "axios";
 import { cookies } from "next/headers";
 
-
-const axiousInstance = axios.create({
-    baseURL : envConfig.baseApi,
-     
+const axiosInstance = axios.create({
+  baseURL: envConfig.baseApi,
 });
 
-axiousInstance.interceptors.request.use(
-    function(confg) {
-        const cockieStore = cookies();
-        const accessToken = cockieStore.get("accessToken")?.value;
-        if(accessToken){
-            confg.headers.authorization = accessToken;
-        }
-        return confg;
-    },
-    function(error) {
-        return Promise.reject(error);
+axiosInstance.interceptors.request.use(
+  function (config) {
+    const cookieStore = cookies();
+    const accessToken = cookieStore.get("accessToken")?.value;
+    if (accessToken) {
+      config.headers.Authorization = accessToken;
     }
+    return config;
+  },
+  function (error) {
+    return Promise.reject(error);
+  }
 );
 
+axiosInstance.interceptors.response.use(
+  function (response) {
+    return response;
+  },
+  async function (error) {
+    const config = error.config;
+    console.log(error)
+    if (error?.response?.status === 401 && !config?.sent) {
+      config.sent = true;
 
-
-axiousInstance.interceptors.response.use(
-    function (response) {
-      return response;
-    },
-    async function (error) {
-      const config = error.config;
-      if (error?.response?.status === 401 && !config?.sent) {
-        config.sent = true;
-  
-        const res = await getNewAccessToken();
-        console.log("res", res)
-        const accessToken = res.data.accessToken;
-        cookies().set("accessToken", accessToken);
-        config.headers["Authorization"] = accessToken;
-        return axiousInstance(config);
-      } else {
-        return Promise.reject(error);
-      }
+      const res = await getNewAccessToken();
+      const accessToken = res.data.accessToken;
+      cookies().set("accessToken", accessToken);
+      config.headers["Authorization"] = accessToken;
+      return axiosInstance(config);
+    } else {
+      return Promise.reject(error);
     }
-  );
+  }
+);
 
-  export default axiousInstance;
+export default axiosInstance;

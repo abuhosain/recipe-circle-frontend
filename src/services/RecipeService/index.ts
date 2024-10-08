@@ -1,6 +1,7 @@
 "use server";
 import envConfig from "@/src/config/env.confg";
-import axiousInstance from "@/src/lib/AxiousInstance";
+import axiosInstance from "@/src/lib/AxiousInstance";
+
 import { revalidateTag } from "next/cache";
 
 export const getAllRecipes = async () => {
@@ -34,7 +35,7 @@ export const createVote = async (
   value: number
 ): Promise<any> => {
   try {
-    const { data } = await axiousInstance.post(
+    const { data } = await axiosInstance.post(
       `/social/recipes/${recipeId}/vote`,
       {
         vote: value,
@@ -52,7 +53,7 @@ export const addRating = async (
   rating: number
 ): Promise<any> => {
   try {
-    const { data } = await axiousInstance.post(`/social/rating/${recipeId}`, {
+    const { data } = await axiosInstance.post(`/social/rating/${recipeId}`, {
       rating: rating,
     });
     return data;
@@ -64,7 +65,7 @@ export const addRating = async (
 
 export const addComment = async(recipeId : string, comment: string):Promise<any> => {
   try{
-    const {data} = await axiousInstance.post(`/social/comment/recipes/${recipeId}`,{
+    const {data} = await axiosInstance.post(`/social/comment/recipes/${recipeId}`,{
       content : comment
     })
   } catch (error) {
@@ -76,7 +77,7 @@ export const addComment = async(recipeId : string, comment: string):Promise<any>
 // Delete Comment API Call
 export const deleteComment = async (recipeId: string, commentId: string): Promise<any> => {
   try {
-    const { data } = await axiousInstance.delete(`/social/recipes/${recipeId}/comment/${commentId}`);
+    const { data } = await axiosInstance.delete(`/social/recipes/${recipeId}/comment/${commentId}`);
     return data; // Return the data if needed
   } catch (error) {
     console.error("Comment deletion error:", error);
@@ -88,7 +89,7 @@ export const deleteComment = async (recipeId: string, commentId: string): Promis
 // Update Comment API Call
 export const updateComment = async (recipeId: string, commentId: string, newComment: string): Promise<any> => {
   try {
-    const { data } = await axiousInstance.put(`/social/recipes/${recipeId}/comment/${commentId}`, {
+    const { data } = await axiosInstance.put(`/social/recipes/${recipeId}/comment/${commentId}`, {
       content: newComment
     });
     return data; // Return the data if needed

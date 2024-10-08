@@ -1,3 +1,4 @@
+
 import ProfileDetails from "@/src/components/UI/Profile/ProfileDetails";
 import { getRecipesByUserId, getSingleUserById } from "@/src/services/UserServices";
  
@@ -14,8 +15,7 @@ export default async function Profile({ params: { id } }: IProps) {
  
   return (
      <div>
-       <ProfileDetails user={user} recipe={recipe} />
-       
+       <ProfileDetails user={user}  recipe={recipe} />    
      </div>
   )
 }
